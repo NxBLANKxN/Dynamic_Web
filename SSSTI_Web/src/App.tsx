@@ -6,6 +6,7 @@ import Register from "@/pages/Register"
 import Dashboard from "@/pages/Dashboard"
 import MainLayout from "@/layouts/MainLayout"
 import AuthLayout from "@/layouts/AuthLayout"
+import Members from "@/pages/Members"
 
 
 function PrivateRoute({ children }: { children: JSX.Element }) {
@@ -33,6 +34,16 @@ export default function App() {
             <PrivateRoute>
               <MainLayout>
                 <Dashboard />
+              </MainLayout>
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/members"
+          element={
+            <PrivateRoute>
+              <MainLayout>
+                <Members />
               </MainLayout>
             </PrivateRoute>
           }

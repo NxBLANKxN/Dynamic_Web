@@ -30,7 +30,7 @@ export default function Sidebar({
           🏠 主頁
         </Button>
 
-        <Button variant="ghost" className="w-full justify-start">
+        <Button variant="ghost" className="w-full justify-start" onClick={() => window.location.href="/members"}>
           👤 成員(開發中)
         </Button>
 
