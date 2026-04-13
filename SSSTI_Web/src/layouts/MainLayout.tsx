@@ -13,7 +13,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
 
       <div className="flex flex-1 relative">
 
-        {/* 遮罩 */}
+
         {open && (
           <div
             className="fixed inset-0 bg-black/40 z-40"
@@ -21,10 +21,10 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
           />
         )}
 
-        {/* Sidebar Drawer */}
+
         <Sidebar open={open} onClose={() => setOpen(false)} />
 
-        {/* Content */}
+
         <main className="flex-1 p-6 bg-background">
           {children}
         </main>

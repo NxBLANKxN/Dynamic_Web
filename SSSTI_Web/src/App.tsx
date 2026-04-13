@@ -7,45 +7,67 @@ import Dashboard from "@/pages/Dashboard"
 import MainLayout from "@/layouts/MainLayout"
 import AuthLayout from "@/layouts/AuthLayout"
 import Members from "@/pages/Members"
+import Home from "@/pages/Home"
+import Settings from "@/pages/Settings"
 
-
-function PrivateRoute({ children }: { children: JSX.Element }) {
+// --- 修改後的權限攔截組件 ---
+function RoleBasedRoute({ 
+  children, 
+  allowedRoles 
+}: { 
+  children: JSX.Element, 
+  allowedRoles?: string[] 
+}) {
   const token = localStorage.getItem("token")
+  const role = localStorage.getItem("role") // 從登入時存入的內容獲取
 
-  return token ? children : <Navigate to="/" />
+  // 1. 如果沒登入，通通回首頁
+  if (!token) return <Navigate to="/" replace />
+
+  // 2. 如果該頁面有指定權限限制，且當前用戶角色不符合
+  if (allowedRoles && !allowedRoles.includes(role || "")) {
+    alert("您的權限不足，無法進入此頁面")
+    return <Navigate to="/" replace />
+  }
+
+  return children
 }
+
 export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={
-          <AuthLayout>
-            <Login />
-          </AuthLayout>
-          } />
-        <Route path="/register" element={
-          <AuthLayout>
-            <Register />
-          </AuthLayout>
-          } />
-          <Route
+        <Route path="/login" element={<AuthLayout><Login /></AuthLayout>} />
+        <Route path="/register" element={<AuthLayout><Register /></AuthLayout>} />
+        <Route path="/" element={<MainLayout><Home /></MainLayout>} />
+        <Route
           path="/dashboard"
           element={
-            <PrivateRoute>
+            <RoleBasedRoute>
               <MainLayout>
                 <Dashboard />
               </MainLayout>
-            </PrivateRoute>
+            </RoleBasedRoute>
           }
         />
         <Route
           path="/members"
           element={
-            <PrivateRoute>
+            <RoleBasedRoute allowedRoles={["admin"]}>
               <MainLayout>
                 <Members />
               </MainLayout>
-            </PrivateRoute>
+            </RoleBasedRoute>
+          }
+        />
+        <Route
+          path="/settings"
+          element={
+            <RoleBasedRoute allowedRoles={["admin"]}>
+              <MainLayout>
+                <Settings/>
+              </MainLayout>
+            </RoleBasedRoute>
           }
         />
       </Routes>
