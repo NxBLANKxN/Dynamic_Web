@@ -47,7 +47,7 @@ export default function Dashboard() {
           <UserCircle className="h-8 w-8" />
         </div>
         <div>
-          <h2 className="text-2xl font-bold tracking-tight">歡迎回來，{username}</h2>
+          <p className="text-2xl font-bold tracking-tight">歡迎回來，{username}</p>
           <p className="text-sm text-muted-foreground">
             權限狀態：<span className={cn("font-semibold uppercase", isAdmin ? "text-red-500" : "text-blue-500")}>{role || "Loading..."}</span>
           </p>

@@ -21,8 +21,7 @@ export default function Home() {
         </div>
         
         <p className="text-4xl md:text-6xl font-extrabold tracking-tight max-w-3xl">
-          智慧 <span className="text-blue-500">蝦隻辨識</span> 與 <br />
-          生長監測系統
+          智慧 <span className="text-blue-500">蝦隻辨識</span> 系統
         </p>
         
         <p className="text-lg text-muted-foreground max-w-xl">
