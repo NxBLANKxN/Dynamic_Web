@@ -168,18 +168,18 @@ export default function Register() {
 
           <div className="relative bg-white dark:bg-zinc-900 p-6 rounded-xl w-[90%] max-w-md border border-green-500">
 
-            <h2 className="font-bold text-green-500 mb-2">
+            <p className="font-bold text-green-500 mb-2 text-lg">
               註冊成功
-            </h2>
+            </p>
 
             <Button
-              className="mt-4 bg-green-500 hover:bg-green-600"
+              className="mt-4 bg-green-500 hover:bg-green-600 font-bold"
               onClick={() => {
                 setSuccess(false)
                 window.location.href = "/"
               }}
             >
-              去登入
+              返回登入
             </Button>
 
           </div>
