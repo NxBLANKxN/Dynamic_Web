@@ -38,7 +38,7 @@ pip install fastapi uvicorn bcrypt
 ## 3️⃣ 啟動後端
 
 ```bash
-uvicorn main:app --reload
+python main.py
 ```
 
 ## 🔗 後端網址
