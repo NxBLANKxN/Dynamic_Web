@@ -26,7 +26,7 @@ export default function Sidebar({
 
       <div className="space-y-2 p-3">
 
-        <Button variant="ghost" className="w-full justify-start">
+        <Button variant="ghost" className="w-full justify-start" onClick={() => window.location.href="/dashboard"}>
           🏠 主頁
         </Button>
 

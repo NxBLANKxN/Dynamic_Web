@@ -2,13 +2,14 @@ import { Card, CardHeader, CardTitle } from "@/components/ui/card"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 
 type Member = {
+  id:number
   name: string
   role: string
 }
 
 const members: Member[] = [
-  { name: "吳竣霆", role: "全端工程師" },
-  { name: "毛柏竣", role: "UI/UX設計師" },
+  { id:1,name: "吳竣霆", role: "全端工程師" },
+  { id:2,name: "毛柏竣", role: "UI/UX設計師" },
 ]
 
 export default function Members() {
@@ -17,7 +18,7 @@ export default function Members() {
 
       {/* Title（可置中） */}
       <div className="text-center mb-6">
-        <h1 className="text-2xl font-bold">團隊成員</h1>
+        <p className="text-2xl font-bold ">團隊成員</p>
         <p className="text-muted-foreground text-sm">
           系統開發團隊列表
         </p>
