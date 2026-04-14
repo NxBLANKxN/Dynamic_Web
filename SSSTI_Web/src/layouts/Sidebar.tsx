@@ -9,7 +9,8 @@ import {
   Settings, 
   Terminal, 
   Database,
-  MenuIcon
+  MenuIcon,
+  Eye
 } from "lucide-react"
 import { useNavigate, useLocation } from "react-router-dom"
 
@@ -25,10 +26,12 @@ export default function Sidebar({
   const [role, setRole] = useState<string | null>(null)
 
   useEffect(() => {
+    // 每次打開側邊欄時重新確認 localStorage 中的角色狀態
     const currentRole = localStorage.getItem("role")
     setRole(currentRole)
-  }, [open])
+  }, [open,location.pathname])
 
+  const isLoggedIn = !!role; // 是否已登入
   const isAdmin = role === "admin"
   const isActive = (path: string) => location.pathname === path
 
@@ -57,10 +60,10 @@ export default function Sidebar({
 
       <div className="px-3 py-4 space-y-6 overflow-y-auto h-[calc(100%-70px)]">
         
-        {/* --- 一般功能 (所有人可見) --- */}
+        {/* --- 1. 公共功能 (所有人可見，包含未登入) --- */}
         <div>
           <p className="px-4 mb-2 text-[10px] font-bold text-muted-foreground uppercase tracking-widest">
-            Main Services
+            General
           </p>
           <div className="space-y-1">
             <Button 
@@ -68,70 +71,82 @@ export default function Sidebar({
               className={cn("w-full justify-start gap-3", isActive("/") && "bg-blue-50 text-blue-600 dark:bg-blue-900/30")} 
               onClick={() => handleNav("/")}
             >
-              <Home className="h-4 w-4" /> 首頁 (Home)
+              <Home className="h-4 w-4" /> 首頁
             </Button>
 
-            {/* ✅ 移至此處：一般使用者也可以查看後端網頁 */}
             <Button 
-              variant={isActive("/dashboard") ? "secondary" : "ghost"}
-              className={cn("w-full justify-start gap-3", isActive("/dashboard") && "bg-blue-50 text-blue-600 dark:bg-blue-900/30")} 
-              onClick={() => handleNav("/dashboard")}
+              variant={isActive("/systempreview") ? "secondary" : "ghost"} 
+              className={cn("w-full justify-start gap-3", isActive("/systempreview") && "bg-blue-50 text-blue-600 dark:bg-blue-900/30")} 
+              onClick={() => handleNav("/systempreview")}
             >
-              <LayoutDashboard className="h-4 w-4 text-blue-500" /> 後端儀表板
+              <Eye className="h-4 w-4 text-purple-500" /> 系統特色預覽
+            </Button>
+
+            <Button 
+              variant={isActive("/members") ? "secondary" : "ghost"}
+              className={cn("w-full justify-start gap-3", isActive("/members") && "bg-blue-50 text-blue-600 dark:bg-blue-900/30")} 
+              onClick={() => handleNav("/members")}
+            >
+              <Users className="h-4 w-4 text-emerald-500" /> 成員展示
             </Button>
           </div>
         </div>
 
-        {/* --- 管理員專屬功能 (僅 Admin 可見) --- */}
+        {/* --- 2. 使用者功能 (登入後可見：一般使用者 & 管理員) --- */}
+        {isLoggedIn && (
+          <div className="animate-in fade-in slide-in-from-left-4 duration-300">
+            <p className="px-4 mb-2 text-[10px] font-bold text-blue-500 uppercase tracking-widest border-t pt-4">
+              Main Services
+            </p>
+            <div className="space-y-1">
+              <Button 
+                variant={isActive("/dashboard") ? "secondary" : "ghost"}
+                className={cn("w-full justify-start gap-3", isActive("/dashboard") && "bg-blue-50 text-blue-600 dark:bg-blue-900/30")} 
+                onClick={() => handleNav("/dashboard")}
+              >
+                <LayoutDashboard className="h-4 w-4 text-blue-500" /> 後端儀表板
+              </Button>
+            </div>
+          </div>
+        )}
+
+        {/* --- 3. 管理員專屬功能 (僅 Admin 可見) --- */}
         {isAdmin && (
-          <>
-            <div className="animate-in fade-in slide-in-from-left-4 duration-300">
-              <p className="px-4 mb-2 text-[10px] font-bold text-red-500 uppercase tracking-widest">
-                Data Management
-              </p>
-              <div className="space-y-1">
-                <Button 
-                  variant={isActive("/members") ? "secondary" : "ghost"}
-                  className={cn("w-full justify-start gap-3", isActive("/members") && "bg-blue-50 text-blue-600 dark:bg-blue-900/30")} 
-                  onClick={() => handleNav("/members")}
-                >
-                  <Users className="h-4 w-4" /> 成員管理
-                </Button>
-                
-                <Button variant="ghost" className="w-full justify-start gap-3 text-muted-foreground/60 hover:text-foreground">
-                  <Database className="h-4 w-4" /> 資料庫狀態
-                </Button>
+          <div className="animate-in fade-in slide-in-from-left-4 duration-500">
+            <p className="px-4 mb-2 text-[10px] font-bold text-red-500 uppercase tracking-widest border-t pt-4">
+              System Management
+            </p>
+            <div className="space-y-1">
+              <Button variant="ghost" className="w-full justify-start gap-3 text-muted-foreground/60 hover:text-foreground">
+                <Database className="h-4 w-4" /> 資料庫狀態
+              </Button>
 
-                <Button variant="ghost" className="w-full justify-start gap-3 text-muted-foreground/60 hover:text-foreground">
-                  <Terminal className="h-4 w-4" /> API 日誌
-                </Button>
-              </div>
-            </div>
+              <Button variant="ghost" className="w-full justify-start gap-3 text-muted-foreground/60 hover:text-foreground">
+                <Terminal className="h-4 w-4" /> API 日誌
+              </Button>
 
-            <div className="animate-in fade-in slide-in-from-left-4 duration-500">
-              <p className="px-4 mb-2 text-[10px] font-bold text-muted-foreground uppercase tracking-widest border-t pt-4">
-                System Advanced
-              </p>
-              <div className="space-y-1">
-                <Button 
-                  variant={isActive("/settings") ? "secondary" : "ghost"}
-                  className={cn("w-full justify-start gap-3", isActive("/settings") && "bg-blue-50 text-blue-600 dark:bg-blue-900/30")}
-                  onClick={() => handleNav("/settings")}
-                >
-                  <Settings className="h-4 w-4" /> 系統設定
-                </Button>
-              </div>
+              <Button 
+                variant={isActive("/settings") ? "secondary" : "ghost"}
+                className={cn("w-full justify-start gap-3", isActive("/settings") && "bg-blue-50 text-blue-600 dark:bg-blue-900/30")}
+                onClick={() => handleNav("/settings")}
+              >
+                <Settings className="h-4 w-4 text-zinc-500" /> 系統設定
+              </Button>
             </div>
-          </>
+          </div>
         )}
       </div>
 
-      {/* Footer */}
+      {/* Footer 狀態顯示 */}
       <div className="absolute bottom-0 w-full p-4 border-t bg-zinc-50/80 dark:bg-zinc-900/80 backdrop-blur-sm">
         <div className="flex items-center gap-2 px-2">
-          <div className={cn("h-2 w-2 rounded-full", isAdmin ? "bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)]" : "bg-blue-400")} />
+          <div className={cn(
+            "h-2 w-2 rounded-full", 
+            isAdmin ? "bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)]" : 
+            isLoggedIn ? "bg-blue-400" : "bg-zinc-300"
+          )} />
           <span className="text-[11px] font-medium text-muted-foreground italic">
-            {isAdmin ? "超級管理員" : "一般使用者"}
+            {isAdmin ? "超級管理員" : isLoggedIn ? "一般使用者" : "訪客模式 (未登入)"}
           </span>
         </div>
       </div>

@@ -9,6 +9,7 @@ import AuthLayout from "@/layouts/AuthLayout"
 import Members from "@/pages/Members"
 import Home from "@/pages/Home"
 import Settings from "@/pages/Settings"
+import SystemPreview from "@/pages/SystemPreview"
 
 // --- 修改後的權限攔截組件 ---
 function RoleBasedRoute({ 
@@ -40,22 +41,14 @@ export default function App() {
         <Route path="/login" element={<AuthLayout><Login /></AuthLayout>} />
         <Route path="/register" element={<AuthLayout><Register /></AuthLayout>} />
         <Route path="/" element={<MainLayout><Home /></MainLayout>} />
+        <Route path="/systemPreview" element={<MainLayout><SystemPreview /></MainLayout>} />
+        <Route path="/members" element={<MainLayout><Members /></MainLayout>} />
         <Route
           path="/dashboard"
           element={
             <RoleBasedRoute>
               <MainLayout>
                 <Dashboard />
-              </MainLayout>
-            </RoleBasedRoute>
-          }
-        />
-        <Route
-          path="/members"
-          element={
-            <RoleBasedRoute allowedRoles={["admin"]}>
-              <MainLayout>
-                <Members />
               </MainLayout>
             </RoleBasedRoute>
           }

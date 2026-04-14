@@ -6,7 +6,8 @@ import {
   ScanSearch, 
   Waves, 
   LineChart, 
-  ShieldCheck 
+  ShieldCheck,
+  Users
 } from "lucide-react"
 
 export default function Home() {
@@ -33,25 +34,27 @@ export default function Home() {
           <Button 
             size="lg" 
             className="h-14 px-8 text-lg font-bold gap-2"
-            onClick={() => (window.location.href = "/dashboard")}
+            onClick={() => (window.location.href = "/systempreview")}
           >
             <LayoutDashboard className="h-5 w-5" />
-            進入管理儀表板
+            進入管特色預覽
           </Button>
           <Button 
             size="lg" 
             variant="outline" 
             className="h-14 px-8 text-lg font-bold"
+            onClick={() => (window.location.href = "/members  ")}
           >
-            查看辨識技術詳情
+            <Users className="h-5 w-5" />
+            查看成員展示
           </Button>
         </div>
       </section>
 
       {/* 核心技術展示區塊 (Feature Grid) */}
       <section className="grid grid-cols-1 md:grid-cols-3 gap-8 px-4 max-w-6xl mx-auto">
-        <Card className="border-none shadow-md bg-zinc-50/50 dark:bg-zinc-900/50">
-          <CardContent className="pt-8 text-left">
+        <Card className="border-none shadow-md bg-zinc-50/50 dark:bg-zinc-900/50 justify-center">
+          <CardContent className="text-left">
             <div className="p-3 bg-blue-500/10 rounded-2xl w-fit mb-4">
               <ScanSearch className="h-6 w-6 text-blue-500" />
             </div>
@@ -62,8 +65,8 @@ export default function Home() {
           </CardContent>
         </Card>
 
-        <Card className="border-none shadow-md bg-zinc-50/50 dark:bg-zinc-900/50">
-          <CardContent className="pt-8 text-left">
+        <Card className="border-none shadow-md bg-zinc-50/50 dark:bg-zinc-900/50 justify-center">
+          <CardContent className="text-left">
             <div className="p-3 bg-indigo-500/10 rounded-2xl w-fit mb-4">
               <LineChart className="h-6 w-6 text-indigo-500" />
             </div>
@@ -74,8 +77,8 @@ export default function Home() {
           </CardContent>
         </Card>
 
-        <Card className="border-none shadow-md bg-zinc-50/50 dark:bg-zinc-900/50">
-          <CardContent className="pt-8 text-left">
+        <Card className="border-none shadow-md bg-zinc-50/50 dark:bg-zinc-900/50 justify-center">
+          <CardContent className=" text-left">
             <div className="p-3 bg-green-500/10 rounded-2xl w-fit mb-4">
               <ShieldCheck className="h-6 w-6 text-green-500" />
             </div>
@@ -88,7 +91,7 @@ export default function Home() {
       </section>
 
       {/* 關於我們 / 技術區塊 */}
-      <section className="max-w-5xl mx-auto px-6 py-12 bg-zinc-50 dark:bg-zinc-900 rounded-3xl flex flex-col md:flex-row items-center gap-12 border border-dashed relative overflow-hidden">
+      <section className="max-w-5xl mx-auto px-6 py-12 bg-zinc-50 dark:bg-zinc-900 rounded-3xl flex flex-col md:flex-row items-center gap-12 border border-none shadow-xl relative overflow-hidden">
         {/* 背景裝飾水紋 */}
         <Waves className="absolute -bottom-10 -left-10 h-40 w-40 text-blue-500/5 -rotate-12 pointer-events-none" />
         

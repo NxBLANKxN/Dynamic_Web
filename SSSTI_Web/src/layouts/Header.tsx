@@ -30,6 +30,7 @@ export default function Header({ onMenuClick }: { onMenuClick: () => void }) {
   const toggleTheme = () => setDark(prev => !prev)
 
   const handleLogout = () => {
+    localStorage.removeItem("role");  
     localStorage.removeItem("token")
     localStorage.removeItem("username")
     setIsLoggedIn(false)

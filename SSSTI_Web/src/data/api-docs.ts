@@ -76,5 +76,55 @@ export const API_LIST: ApiSpec[] = [
     desc: "根據 ID 永久移除該名使用者。",
     requestBody: {},
     response: { msg: "success" }
-  }
+  },
+  {
+    title: "獲取團隊成員列表 (Get Members)",
+    method: "GET",
+    endpoint: "/members",
+    desc: "取得所有顯示在前端團隊頁面的成員資訊。",
+    requestBody: {},
+    response: [
+      {
+        id: 1,
+        name: "姓名",
+        role: "職位",
+        image_url: "圖片網址",
+        bio: "個人簡介"
+      }
+    ]
+  },
+  {
+    title: "新增團隊成員 (Add Member)",
+    method: "POST",
+    endpoint: "/members",
+    desc: "上傳成員資訊與照片。使用 Multipart/Form-data 格式。",
+    requestBody: {
+      name: "姓名",
+      role: "職位",
+      bio: "個人簡介 (選填)",
+      file: "圖片檔案 (選填)"
+    },
+    response: { msg: "success" }
+  },
+  {
+    title: "更新團隊成員 (Update Member)",
+    method: "PUT",
+    endpoint: "/members/{member_id}",
+    desc: "更新指定 ID 的成員資料。若有傳送 file 欄位則更新圖片，否則保留原圖。使用 Multipart/Form-data 格式。",
+    requestBody: {
+      name: "姓名",
+      role: "職位",
+      bio: "個人簡介 (選填)",
+      file: "新圖片檔案 (選填)"
+    },
+    response: { msg: "success" }
+  },
+  {
+    title: "刪除團隊成員 (Delete Member)",
+    method: "DELETE",
+    endpoint: "/members/{member_id}",
+    desc: "根據 ID 永久移除該名團隊成員資料。", 
+    requestBody: {},
+    response: { msg: "success" }
+  }   
 ];

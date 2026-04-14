@@ -74,7 +74,7 @@ export default function Dashboard() {
         <div className="flex items-center justify-between px-1">
           <div className="flex items-center gap-2">
             <Code2 className="h-5 w-5 text-blue-500" />
-            <p className="text-xl font-bold">API 接口說明 (Documentation)</p>
+            <p className="text-xl font-bold">API 接口說明</p>
           </div>
           {!isAdmin && <Badge variant="outline" className="opacity-60 text-[10px]">僅顯示公共接口</Badge>}
         </div>
