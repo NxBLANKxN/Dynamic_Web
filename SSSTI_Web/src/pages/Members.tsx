@@ -123,15 +123,15 @@ export default function Members() {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         {members.map((m) => (
           <Card key={m.id} className="relative overflow-hidden hover:border-indigo-400/50 transition-all hover:shadow-md group">
-            <CardHeader className="flex flex-row items-center gap-5 p-5 text-left">
-              <Avatar className="w-16 h-16 border-2 border-background shadow-sm">
+            <CardHeader className="flex flex-row items-center gap-5 p-4 text-left ">
+              <Avatar className="w-32 h-32 border-2 border-background shadow-sm">
                 <AvatarImage src={m.image_url} alt={m.name} className="object-cover" />
                 <AvatarFallback className="bg-indigo-100 text-indigo-700 font-bold">{m.name.slice(-2)}</AvatarFallback>
               </Avatar>
               <div className="flex flex-col flex-1">
-                <CardTitle className="text-lg">{m.name}</CardTitle>
-                <p className="text-xs text-indigo-600 font-bold uppercase tracking-widest mt-0.5">{m.role}</p>
-                {m.bio && <p className="text-xs text-muted-foreground line-clamp-1 mt-1.5">{m.bio}</p>}
+                <CardTitle className="text-2xl">{m.name}</CardTitle>
+                <p className="text-lg text-indigo-600 font-bold uppercase tracking-widest mt-0.5">{m.role}</p>
+                {m.bio && <p className="text-lg text-muted-foreground whitespace-pre-line mt-1.5">{m.bio}</p>}
               </div>
 
               {/* 管理員功能按鈕 */}
@@ -169,8 +169,8 @@ export default function Members() {
               }} />
             </div>
             <div className="w-full space-y-3">
-              <div className="space-y-1"><p className="text-[11px] font-bold text-muted-foreground uppercase">成員姓名</p><Input value={form.name} onChange={e=>setForm({...form, name:e.target.value})} /></div>
-              <div className="space-y-1"><p className="text-[11px] font-bold text-muted-foreground uppercase">職位</p><Input value={form.role} onChange={e=>setForm({...form, role:e.target.value})} /></div>
+              <div className="space-y-1"><p className="text-[12px] font-bold text-muted-foreground uppercase">成員姓名</p><Input value={form.name} onChange={e=>setForm({...form, name:e.target.value})} /></div>
+              <div className="space-y-1"><p className="text-[12px] font-bold text-muted-foreground uppercase">職位</p><Input value={form.role} onChange={e=>setForm({...form, role:e.target.value})} /></div>
               <div className="space-y-1">
                 <p className="text-[11px] font-bold text-muted-foreground uppercase flex items-center gap-1"><AlignLeft className="h-3 w-3" /> 個人簡介</p>
                 <Textarea className="h-20 resize-none" value={form.bio} onChange={e=>setForm({...form, bio:e.target.value})} />

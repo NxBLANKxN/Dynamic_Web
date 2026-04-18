@@ -12,119 +12,99 @@ export const API_LIST: ApiSpec[] = [
     title: "帳號註冊 (User Registration)",
     method: "POST",
     endpoint: "/register",
-    desc: "建立新帳號。帳號與密碼為必填，其餘欄位為選填。",
+    desc: "建立新帳號。系統會自動紀錄註冊日誌。",
     requestBody: {
       username: "user_example",
       password: "secure_password",
-      name: "使用者名稱 (選填)",
-      phone: "0912345678 (選填)",
-      address: "通訊地址 (選填)",
-      role: "user"
+      name: "使用者名稱",
+      phone: "電話",
+      address: "地址",
+      role: "admin | user",
     },
-    response: { msg: "success | exists | fail" }
+    response: { msg: "success | exists" },
   },
   {
     title: "帳號登入 (User Login)",
     method: "POST",
     endpoint: "/login",
-    desc: "驗證帳號密碼，返回執行結果與用戶權限。",
+    desc: "驗證成功後會回傳 user_id，請存於 localStorage 以供後續關聯使用。",
     requestBody: {
       username: "user_example",
-      password: "secure_password"
+      password: "secure_password",
     },
-    response: { 
-      msg: "success | fail",
+    response: {
+      msg: "success",
+      user_id: 1, // <--- 新增：用於後續所有關聯操作
       username: "user_example",
-      role: "admin | user"
-    }
+      role: "admin",
+    },
   },
   {
     title: "獲取帳號列表 (Get Users)",
     method: "GET",
     endpoint: "/users",
-    desc: "取得系統內所有使用者的詳細資訊清單。",
+    desc: "取得系統內所有使用者。",
     requestBody: {},
-    response: [
-      {
-        id: 1,
-        username: "admin",
-        name: "管理員",
-        role: "admin",
-        phone: "0000",
-        address: "System"
-      }
-    ]
-  },
-  {
-    title: "更新帳號資訊 (Update User)",
-    method: "PUT",
-    endpoint: "/users/{user_id}",
-    desc: "動態更新指定 ID 的使用者資料。若不修改密碼請留空或不傳該欄位。",
-    requestBody: {
-      password: "new_password (選填)",
-      name: "新名稱 (選填)",
-      phone: "新電話 (選填)",
-      address: "新地址 (選填)",
-      role: "admin | user"
-    },
-    response: { msg: "success | no updates" }
+    response: [{ id: 1, username: "admin", role: "admin" }],
   },
   {
     title: "刪除帳號 (Delete User)",
     method: "DELETE",
-    endpoint: "/users/{user_id}",
-    desc: "根據 ID 永久移除該名使用者。",
+    endpoint: "/users/{user_id}?admin_id={admin_id}",
+    desc: "刪除指定帳號，需帶入操作者的 admin_id 以供紀錄日誌。",
     requestBody: {},
-    response: { msg: "success" }
+    response: { msg: "success" },
   },
   {
     title: "獲取團隊成員列表 (Get Members)",
     method: "GET",
     endpoint: "/members",
-    desc: "取得所有顯示在前端團隊頁面的成員資訊。",
+    desc: "取得成員資訊，包含 created_by (建立者 ID)。",
     requestBody: {},
     response: [
       {
         id: 1,
         name: "姓名",
         role: "職位",
-        image_url: "圖片網址",
-        bio: "個人簡介"
-      }
-    ]
+        image_url: "url",
+        created_by: 1, // <--- 新增：顯示資料歸屬
+      },
+    ],
   },
   {
     title: "新增團隊成員 (Add Member)",
     method: "POST",
     endpoint: "/members",
-    desc: "上傳成員資訊與照片。使用 Multipart/Form-data 格式。",
+    desc: "必須傳入 creator_id 以建立資料庫關聯。",
     requestBody: {
       name: "姓名",
       role: "職位",
-      bio: "個人簡介 (選填)",
-      file: "圖片檔案 (選填)"
+      bio: "簡介",
+      creator_id: 1, // <--- 新增：建立者關聯 (Required)
+      file: "圖片檔案",
     },
-    response: { msg: "success" }
+    response: { msg: "success" },
   },
   {
     title: "更新團隊成員 (Update Member)",
     method: "PUT",
     endpoint: "/members/{member_id}",
-    desc: "更新指定 ID 的成員資料。若有傳送 file 欄位則更新圖片，否則保留原圖。使用 Multipart/Form-data 格式。",
+    desc: "更新成員資料，需傳入 editor_id 以紀錄是誰修改的。",
     requestBody: {
+      editor_id: 1, // <--- 新增：修改者紀錄 (Required)
       name: "姓名",
       role: "職位",
-      bio: "個人簡介 (選填)",
-      file: "新圖片檔案 (選填)"
+      bio: "簡介",
+      file: "新圖片檔案",
     },
-    response: { msg: "success" }
+    response: { msg: "success" },
   },
   {
     title: "刪除團隊成員 (Delete Member)",
     method: "DELETE",
-    endpoint: "/members/{member_id}",
-    desc: "根據 ID 永久移除該名團隊成員資料。", 
+    endpoint: "/members/{member_id}?admin_id={admin_id}",
+    desc: "刪除成員，需帶入 admin_id 紀錄日誌。",
     requestBody: {},
-    response: { msg: "success" }
-  }   
+    response: { msg: "success" },
+  },
 ];
